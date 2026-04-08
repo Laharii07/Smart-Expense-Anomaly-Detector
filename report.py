@@ -1,3 +1,6 @@
+
+import pandas as pd
+
 def build_report(df):
     from detectors import find_duplicates, check_policy, detect_anomalies, actual_fraud
 
