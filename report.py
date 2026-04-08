@@ -1,5 +1,6 @@
 
-import pandas as pd
+import pandas as pd   
+from sklearn.ensemble import IsolationForest
 
 def build_report(df):
     from detectors import find_duplicates, check_policy, detect_anomalies, actual_fraud
