@@ -26,6 +26,7 @@ def check_policy(df):
     return pd.concat(flagged) if flagged else pd.DataFrame()
   
 # Anomaly Detection (Isolation Forest)
+
 from sklearn.ensemble import IsolationForest
 
 def detect_anomalies(df, contamination=0.05):
@@ -38,3 +39,9 @@ def detect_anomalies(df, contamination=0.05):
     anomalies['flag_reason'] = 'AI anomaly detected'
 
     return anomalies
+# Checking Fraud
+
+def actual_fraud(df):
+    frauds = df[df['is_fraud'] == 1].copy()
+    frauds['flag_reason'] = 'Actual Fraud (labelled)'
+    return frauds
