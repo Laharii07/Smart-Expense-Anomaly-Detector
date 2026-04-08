@@ -2,19 +2,24 @@ import pandas as pd
 
 def load_and_clean(filepath):
     df = pd.read_csv(filepath)
-    
-    # Standardise column names (lowercase, no spaces)
-    df.columns = df.columns.str.lower().str.replace(' ', '_')
-    
-    # Parse dates properly
-    df['date'] = pd.to_datetime(df['date'])
-    
-    # Extract hour and day-of-week for anomaly detection later
-    df['hour'] = df['date'].dt.hour
-    df['day_of_week'] = df['date'].dt.dayofweek  # 0=Mon, 6=Sun
-    
-    # Drop rows with no amount
+
+    # Standardize column names
+    df.columns = df.columns.str.lower().str.strip()
+
+    # Convert transaction datetime
+    df['trans_date_trans_time'] = pd.to_datetime(df['trans_date_trans_time'])
+
+    # Extract useful features
+    df['hour'] = df['trans_date_trans_time'].dt.hour
+    df['day_of_week'] = df['trans_date_trans_time'].dt.dayofweek
+
+    # Rename for consistency
+    df.rename(columns={
+        'amt': 'amount'
+    }, inplace=True)
+
+    # Ensure amount is valid
     df = df.dropna(subset=['amount'])
-    df['amount'] = df['amount'].abs()  # ensure positive
-    
+    df['amount'] = df['amount'].abs()
+
     return df
